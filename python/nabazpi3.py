@@ -12,6 +12,7 @@ import paho.mqtt.client as mqtt
 # import RPi.GPIO as GPIO
 import time
 import argparse
+from nabazpileds import Nabazpileds
 
 # get the command line options
 parser = argparse.ArgumentParser()
@@ -20,6 +21,10 @@ parser.add_argument("-u", "--username", help="Broker username", required=True )
 parser.add_argument("-p", "--password", help="Broker password", required=True )
 parser.add_argument("-s", "--subject", help="Subject to subscribe to", required=True )
 args = parser.parse_args()
+
+# init the leds
+leds = Nabazpileds()
+leds.wave()
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -31,13 +36,24 @@ def on_connect(client, userdata, flags, rc):
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
 	# decode the byte array that holds our message, and remove double quotes
+	subject = str(msg.topic)
 	message = msg.payload.decode().replace('"','')
-	# check if the string is safe to say
-	if(check_message(message)):
-		# call the function that does the talking
-		say_string(message)
-	else:
-		say_string("I don't think it's safe to say that.")
+	if subject == 'roytanck/test':
+		if message == 'testkitt':
+			leds.kitt()
+		if message == 'testglow':
+			leds.glow()
+		if message == 'testcross':
+			leds.cross()
+		if message == 'testwave':
+			leds.wave()
+	else :
+		# check if the string is safe to say
+		if(check_message(message)):
+			# call the function that does the talking
+			say_string(message)
+		else:
+			say_string("I don't think it's safe to say that.")
 
 # Check messages for characters that allow command chaining
 def check_message(message):
@@ -48,10 +64,12 @@ def check_message(message):
 # Helper function to speak strings
 def say_string(message):
 	# assemble the command
-	command = 'espeak -a200 -p40 -ven -k20 "' + str(message) + '" 2>/dev/null'
+	command = 'espeak -a50 -p40 -ven -k20 "' + str(message) + '" 2>/dev/null'
 	# execute command and print the return value
-	retvalue = subprocess.call(command, shell=True)
-	print('Output: "'+message+'" (return value: '+str(retvalue)+')')
+	proc = subprocess.Popen(command, shell=True)
+	print('Output: "'+message+'" (return value: '+str(proc)+')')
+	leds.glow()
+	proc.wait()
 
 # initialize the client
 client = mqtt.Client()
