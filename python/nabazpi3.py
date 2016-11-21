@@ -28,7 +28,7 @@ leds.wave()
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
-	print("Connected with result code "+str(rc))
+	#print("Connected with result code "+str(rc))
 	# Subscribing in on_connect() means that if we lose the connection and
 	# reconnect then subscriptions will be renewed.
 	client.subscribe(args.subject)
@@ -51,7 +51,10 @@ def on_message(client, userdata, msg):
 		# check if the string is safe to say
 		if(check_message(message)):
 			# call the function that does the talking
-			say_string(message)
+			if(subject=='roytanck/spreek'):
+				say_string(message,'nl')
+			else :
+				say_string(message)
 		else:
 			say_string("I don't think it's safe to say that.")
 
@@ -62,12 +65,12 @@ def check_message(message):
 	return True
 
 # Helper function to speak strings
-def say_string(message):
+def say_string(message, language='en'):
 	# assemble the command
-	command = 'espeak -a50 -p40 -ven -k20 "' + str(message) + '" 2>/dev/null'
+	command = 'espeak -a200 -p40 -v' + language  + ' -k20 "' + str(message) + '" 2>/dev/null'
 	# execute command and print the return value
 	proc = subprocess.Popen(command, shell=True)
-	print('Output: "'+message+'" (return value: '+str(proc)+')')
+	#print('Output: "'+message+'" (return value: '+str(proc)+')')
 	leds.glow()
 	proc.wait()
 

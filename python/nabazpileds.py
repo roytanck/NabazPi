@@ -11,12 +11,12 @@ class Nabazpileds:
 	def __init__(self):
 		unicorn.set_layout(unicorn.HAT)
 		unicorn.rotation(90)
-		unicorn.brightness(0.5)
+		unicorn.brightness(1)
 		self.width,self.height=unicorn.get_shape()
-		print('inited')
+		# print('inited')
 
 	def turnon(self):
-		print('turnon')
+		# print('turnon')
 		for y in range(self.height):
 			for x in range(self.width):
 				unicorn.set_pixel(x,y,255,0,255)
@@ -34,10 +34,9 @@ class Nabazpileds:
 			# print(brightness)
 			for y in range(self.height):
 				for x in range(self.width):
-					unicorn.set_pixel(x,y,0,brightness,0)
+					unicorn.set_pixel(x,y,brightness,0,brightness)
 			unicorn.show();
 			time.sleep(0.01)
-		# print('ja')
 		unicorn.off()
 
 	def kitt(self):
@@ -59,7 +58,7 @@ class Nabazpileds:
 		unicorn.off()
 
 	def cross(self):
-		print('cross')
+		# print('cross')
 		unicorn.off()
 		for i in range(0,8):
 			unicorn.set_pixel(i,i,255,0,0);
@@ -73,7 +72,7 @@ class Nabazpileds:
 		unicorn.off()
 
 	def wave(self):
-		print('wave')
+		# print('wave')
 		steps = 200
 		for i in range(steps):
 			for y in range(self.height):
