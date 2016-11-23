@@ -24,7 +24,7 @@ args = parser.parse_args()
 
 # init the leds
 leds = Nabazpileds()
-leds.wave()
+leds.startup()
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -39,6 +39,8 @@ def on_message(client, userdata, msg):
 	subject = str(msg.topic)
 	message = msg.payload.decode().replace('"','')
 	if subject == 'roytanck/test':
+		if message == 'teststartup':
+			leds.startup()
 		if message == 'testkitt':
 			leds.kitt()
 		if message == 'testglow':
@@ -47,6 +49,10 @@ def on_message(client, userdata, msg):
 			leds.cross()
 		if message == 'testwave':
 			leds.wave()
+		if message == 'testrainbow':
+			leds.rainbow()
+		if message == 'testdisco':
+			leds.disco()
 	else :
 		# check if the string is safe to say
 		if(check_message(message)):

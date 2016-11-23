@@ -1,7 +1,8 @@
 import unicornhat as unicorn
 import time
 import math
-from random import randint
+import colorsys
+import random
 
 class Nabazpileds:
 
@@ -15,15 +16,13 @@ class Nabazpileds:
 		self.width,self.height=unicorn.get_shape()
 		# print('inited')
 
-	def turnon(self):
-		# print('turnon')
+	def startup(self):
 		for y in range(self.height):
 			for x in range(self.width):
-				unicorn.set_pixel(x,y,255,0,255)
+				unicorn.set_pixel(x,(self.height-1)-y,0,255,0)
 				unicorn.show()
 				time.sleep(0.05)
-
-		time.sleep(1)
+		time.sleep(0.5)
 		unicorn.off();
 
 	def glow(self):
@@ -39,37 +38,32 @@ class Nabazpileds:
 			time.sleep(0.01)
 		unicorn.off()
 
+	# don't hassle the hoff!
 	def kitt(self):
-		unicorn.off()
-		steps = 100
-		for i in range(0, steps):
-			unicorn.clear()
-			progress = 3.5 + ( math.cos( (i/steps) * 2 * math.pi * 2 ) * 3 )
-
-			for x in range( math.floor(progress)-1, math.ceil(progress)+1 ):
-				if x >= 0 and x < 9:
-					b = round( ( 2 - math.fabs( progress - x ) ) * 127 )
-					for y in range(self.height):
-						unicorn.set_pixel(x,y,b,0,0)
-
+		steps = 64
+		for i in range(0,steps):
+			unicorn.clear();
+			mod = i%13
+			if( mod < 6 ):
+				x = mod
+			else:
+				x = 6 - (mod-6)
+			for y in range(3,6):
+				unicorn.set_pixel(x,y,255,0,0)
+				unicorn.set_pixel(x+1,y,255,0,0)
 			unicorn.show()
-			time.sleep(0.02)
-
+			time.sleep(0.1)
 		unicorn.off()
 
 	def cross(self):
-		# print('cross')
 		unicorn.off()
 		for i in range(0,8):
 			unicorn.set_pixel(i,i,255,0,0);
-			unicorn.set_pixel(i+1,i,255,0,0);
-			unicorn.set_pixel(i-1,i,255,0,0);
 			unicorn.set_pixel(i,7-i,255,0,0);
-			unicorn.set_pixel(i,6-i,255,0,0);
-			unicorn.set_pixel(i,8-i,255,0,0);
 		unicorn.show()
 		time.sleep(1)
 		unicorn.off()
+
 
 	def wave(self):
 		# print('wave')
@@ -79,7 +73,38 @@ class Nabazpileds:
 				for x in range(self.width):
 					dist = math.sqrt( math.pow( math.fabs(x-3.5), 2 ) + math.pow( math.fabs(y-3.5),2 ) )
 					b = round( 128 + math.sin( (dist-i/20) ) * 127 )
-					unicorn.set_pixel(x,y,0,b,round(b/2))
+					unicorn.set_pixel( x, y, round(b/3), round(b/2), b )
 			unicorn.show()
 			time.sleep(0.01)
 		unicorn.off()
+
+	def rainbow(self):
+		steps = 360
+		for i in range(0,steps):
+			# col = colorsys.hsv_to_rgb( i, 1, 1 )
+			# brightness = math.sin( (i/steps) * math.pi )
+			# print(brightness)
+			col = self.hsv2rgb( (i+240)%360, 1, 1 )
+			for x in range(0,self.width):
+				for y in range(0,self.height):
+					unicorn.set_pixel( x, y, col[0], col[1], col[2] )
+			unicorn.show()
+			time.sleep(0.01)
+		unicorn.off()
+
+	def disco(self):
+		steps = 25
+		for i in range( steps ):
+			for x in range(4):
+				for y in range(4):
+					col = self.hsv2rgb( random.randint( 0, 359 ), 1, random.uniform( 0.5, 1 ) )
+					for i in range(2):
+						for j in range(2):
+							unicorn.set_pixel( x*2 + i, y*2 + j, col[0], col[1], col[2] );
+			unicorn.show()
+			time.sleep(0.2)
+		unicorn.off()
+
+	def hsv2rgb( self, h, s, v ):
+		col = colorsys.hsv_to_rgb( h/360.0, s, v )
+		return ( round( col[0] * 255 ), round( col[1] * 255 ), round( col[2] * 255 ) )
