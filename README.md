@@ -7,6 +7,7 @@ This repository contains code written for my "NabazPi" project. More info [on my
 This assumes you have an MQTT broker you can use, and devices that can send messages to it.
 
 * Make sure the Raspberry Pi is running a recent version of Raspbian.
+* connect the Pimoroni Unicorn HAT, and install it's [Pythyon library](https://github.com/pimoroni/unicorn-hat).
 * Make sure Python 3 is installed.
 * Install the pip package manager. [more info](https://www.raspberrypi.org/documentation/linux/software/python.md)
 * install the paho-mqtt client library. [more info](https://github.com/eclipse/paho.mqtt.python)
