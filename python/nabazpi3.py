@@ -53,6 +53,10 @@ def on_message(client, userdata, msg):
 			leds.rainbow()
 		if message == 'testdisco':
 			leds.disco()
+		if message == 'testpolice':
+			leds.police()
+		if(message == 'testtraffic'):
+			leds.traffic()
 	else :
 		# check if the string is safe to say
 		if(check_message(message)):

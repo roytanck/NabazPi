@@ -105,6 +105,38 @@ class Nabazpileds:
 			time.sleep(0.2)
 		unicorn.off()
 
+	def police(self):
+		for i in range(3):
+			for j in range(8):
+				self.drawRect( 0, 0, 8, 8, 80, 100, 255 )
+				time.sleep(0.05)
+				unicorn.clear()
+				unicorn.show()
+				time.sleep(0.05)
+			time.sleep(0.25)
+		unicorn.off()
+
+	def traffic(self):
+		unicorn.clear()
+		self.drawRect( 3, 0, 2, 2, 255, 0, 0 )
+		unicorn.show()
+		time.sleep(1)
+		unicorn.clear()
+		self.drawRect( 3, 3, 2, 2, 255, 185, 0 )
+		unicorn.show()
+		time.sleep(1)
+		unicorn.clear()
+		self.drawRect( 3, 6, 2, 2, 0, 255, 0)
+		unicorn.show()
+		time.sleep(1)
+		unicorn.off()
+
+	def drawRect(self, sx, sy, w, h, r, g, b ):
+		for x in range( sx, sx+w ):
+			for y in range( sy, sy+h ):
+				unicorn.set_pixel( x, y, r, g, b )
+		unicorn.show();
+
 	def hsv2rgb( self, h, s, v ):
 		col = colorsys.hsv_to_rgb( h/360.0, s, v )
 		return ( round( col[0] * 255 ), round( col[1] * 255 ), round( col[2] * 255 ) )
