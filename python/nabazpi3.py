@@ -49,6 +49,8 @@ def on_message(client, userdata, msg):
 			leds.cross()
 		if message == 'testwave':
 			leds.wave()
+		if message == 'testcolorcycle':
+			leds.colorcycle()
 		if message == 'testrainbow':
 			leds.rainbow()
 		if message == 'testdisco':

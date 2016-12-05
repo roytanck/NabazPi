@@ -78,7 +78,7 @@ class Nabazpileds:
 			time.sleep(0.01)
 		unicorn.off()
 
-	def rainbow(self):
+	def colorcycle(self):
 		steps = 360
 		for i in range(0,steps):
 			# col = colorsys.hsv_to_rgb( i, 1, 1 )
@@ -90,6 +90,16 @@ class Nabazpileds:
 					unicorn.set_pixel( x, y, col[0], col[1], col[2] )
 			unicorn.show()
 			time.sleep(0.01)
+		unicorn.off()
+
+	def rainbow(self):
+		steps = 200
+		for s in range(steps):
+			for i in range(8):
+				col = self.hsv2rgb( (i*45+s*5)%360, 1, 1 )
+				self.drawRect( 0, i, 8, 1, col[0], col[1], col[2] )
+			unicorn.show()
+			time.sleep(0.02)
 		unicorn.off()
 
 	def disco(self):

@@ -25,6 +25,8 @@ if( args.animation == 'wave' ):
 	leds.wave()
 if( args.animation == 'cross' ):
 	leds.cross()
+if( args.animation == 'colorcycle' ):
+	leds.colorcycle()
 if( args.animation == 'rainbow' ):
 	leds.rainbow()
 if( args.animation == 'disco' ):
