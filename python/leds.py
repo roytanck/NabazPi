@@ -35,5 +35,6 @@ if( args.animation == 'police' ):
 	leds.police()
 if( args.animation == 'traffic' ):
 	leds.traffic()
-
+if( args.animation == 'randomglow' ):
+	leds.randomglow()
 exit(0)

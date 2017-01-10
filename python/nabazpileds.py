@@ -38,6 +38,20 @@ class Nabazpileds:
 			time.sleep(0.01)
 		unicorn.off()
 
+	def randomglow(self):
+		unicorn.off()
+		steps = 100
+		hue = random.randint( 0, 359 )
+		for i in range(0, steps):
+			brightness = int( round( math.sin( (i/steps) * math.pi ) * 255 ) )
+			col = self.hsv2rgb( hue, 1, brightness )
+			for y in range(self.height):
+				for x in range(self.width):
+					unicorn.set_pixel(x,y,col[0],col[1],col[2])
+			unicorn.show();
+			time.sleep(0.01)
+		unicorn.off()
+
 	# don't hassle the hoff!
 	def kitt(self):
 		steps = 64
